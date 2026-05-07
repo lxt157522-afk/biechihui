@@ -38,6 +38,21 @@
     overflow: hidden;
   }
 
+  /* Card monospace font */
+  .card-mono {
+    font-family: "SF Mono", "Fira Code", "Consolas", "Monaco", "Courier New", monospace;
+  }
+
+  /* Count number with Georgia */
+  .count-georgia {
+    font-family: Georgia, "Times New Roman", serif;
+  }
+
+  /* Logo serif font */
+  .logo-serif {
+    font-family: "Songti SC", "STSong", "SimSun", "Noto Serif SC", serif;
+  }
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
