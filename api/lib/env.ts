@@ -13,4 +13,6 @@ export const env = {
   appSecret: required("APP_SECRET"),
   isProduction: process.env.NODE_ENV === "production",
   databaseUrl: required("DATABASE_URL"),
+  deepseekApiKey: process.env.DEEPSEEK_API_KEY ?? "",
+  deepseekApiUrl: process.env.DEEPSEEK_API_URL ?? "https://api.deepseek.com",
 };
