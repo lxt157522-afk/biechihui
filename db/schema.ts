@@ -1,22 +1,15 @@
-import {
-  mysqlTable,
-  mysqlEnum,
-  serial,
-  varchar,
-  text,
-  timestamp,
-  // bigint,
-} from "drizzle-orm/mysql-core";
+import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
-// TODO: Add your tables here. See docs/Database.md for schema examples and patterns.
-//
-// Example:
-// export const posts = mysqlTable("posts", {
-//   id: serial("id").primaryKey(),
-//   title: varchar("title", { length: 255 }).notNull(),
-//   content: text("content"),
-//   createdAt: timestamp("created_at").notNull().defaultNow(),
-// });
-//
-// Note: FK columns referencing a serial() PK must use:
-//   bigint("columnName", { mode: "number", unsigned: true }).notNull()
+export const collections = sqliteTable("collections", {
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  url: text("url").notNull(),
+  title: text("title").notNull(),
+  summary: text("summary").notNull().default(""),
+  category: text("category").notNull().default("article"),
+  tags: text("tags").notNull().default("[]"),
+  source: text("source").notNull().default("网页"),
+  contentType: text("content_type").notNull().default("article"),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(() => new Date()),
+  isRead: integer("is_read", { mode: "boolean" }).notNull().default(false),
+  isFavorite: integer("is_favorite", { mode: "boolean" }).notNull().default(false),
+});
