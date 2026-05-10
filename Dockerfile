@@ -1,24 +1,19 @@
 FROM node:20-alpine AS base
 WORKDIR /app
+RUN apk add --no-cache python3 make g++ libstdc++
 
-# Install build tools for native modules
-RUN apk add --no-cache python3 make g++
-
-FROM base AS deps
+FROM base AS build
 COPY package.json package-lock.json ./
-RUN npm config set registry https://npm.mirrors.msh.team
-RUN --mount=type=cache,target=/root/.npm \
-    npm ci --prefer-offline --no-audit
-
-FROM deps AS build
+RUN npm config set registry https://registry.npmjs.org
+RUN npm ci --prefer-offline --no-audit
 COPY . .
 RUN npm run build
 
 FROM node:20-alpine AS production
-RUN apk add --no-cache libstdc++
-COPY --from=deps /app/node_modules ./node_modules
+RUN apk add --no-cache python3 make g++ libstdc++
+WORKDIR /app
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./
-
 EXPOSE 3000
 CMD ["npm", "start"]

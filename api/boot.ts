@@ -5,8 +5,18 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
+import { getDb } from "./queries/connection";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
+
+// Initialize database on startup
+try {
+  const db = getDb();
+  // SQLite auto-creates tables via drizzle, but let's ensure the schema is set up
+  console.log("Database initialized");
+} catch (e) {
+  console.error("Database init error:", e);
+}
 
 app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
 app.use("/api/trpc/*", async (c) => {

@@ -1,1 +1,3 @@
-import {} from "./schema";
+import { collections } from "./schema";
+
+export { collections };
